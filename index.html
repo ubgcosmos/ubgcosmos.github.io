@@ -102,7 +102,7 @@ updateTime();
 // Weather
 async function loadWeather() {
     try {
-        const ipData = await fetch("https://ipinfo.io/json?token=d3c139f7603b13").then(r => r.json());
+        const ipData = await fetch("https://ipinfo.io/json?token=be26bfc118c4b0").then(r => r.json());
         const [lat, lon] = ipData.loc.split(",");
         const city = ipData.city;
 
