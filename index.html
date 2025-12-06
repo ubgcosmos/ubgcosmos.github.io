@@ -102,18 +102,30 @@ updateTime();
 // Weather
 async function loadWeather() {
     try {
-        const ipData = await fetch("https://ipapi.co/json/").then(r => r.json());
-        const lat = ipData.latitude, lon = ipData.longitude, city = ipData.city;
-        const weatherData = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`).then(r => r.json());
+        const ipData = await fetch("https://ipinfo.io/json?token=d3c139f7603b13").then(r => r.json());
+        const [lat, lon] = ipData.loc.split(",");
+        const city = ipData.city;
+
+        const weatherData = await fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
+        ).then(r => r.json());
+
         const temp = weatherData.current_weather.temperature;
         const code = weatherData.current_weather.weathercode;
-        const weatherNames = {0:"Clear",1:"Mainly Clear",2:"Partly Cloudy",3:"Cloudy",45:"Fog",48:"Fog",51:"Drizzle",61:"Rain",80:"Rain",95:"Storm"};
-        const text = `${city} • ${weatherNames[code] ?? "Weather"} • ${temp}°C`;
-        document.getElementById("weather").textContent = text;
-    } catch {
+
+        const weatherNames = {
+            0:"Clear",1:"Mainly Clear",2:"Partly Cloudy",3:"Cloudy",
+            45:"Fog",48:"Fog",51:"Drizzle",61:"Rain",80:"Rain",95:"Storm"
+        };
+
+        document.getElementById("weather").textContent =
+            `${city} • ${weatherNames[code] ?? "Weather"} • ${temp}°C`;
+
+    } catch (err) {
         document.getElementById("weather").textContent = "Weather unavailable";
     }
 }
+
 loadWeather();
 
 // Typewriter Effect
