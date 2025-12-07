@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="title" content="ethanytang" />
+  <meta name="robots" content="index, follow" />
+  <meta name="google-site-verification" content="je81n_UtY27MEUx6Cy_o74rw-ibJmZRVluilmMSrD0k" />
+  <link rel="icon" href="assets/img/classroom.png" type="image/png" />
+  <title>Suggestions & Feedback</title>
+  <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #1a1a1a;
+      color: #e0e0e0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    form {
+      background: #2a2a2a;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      width: 100%;
+      max-width: 450px;
+    }
+    h2 {
+      color: #f0f0f0;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #b0b0b0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #333;
+      color: #e0e0e0;
+      font-family: system-ui, sans-serif;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #888;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #666;
+      background: #3a3a3a;
+    }
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    button {
+      background: #505050;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+      font-weight: 500;
+      margin-top: 15px;
+    }
+    button:disabled {
+      background: #3a3a3a;
+      cursor: not-allowed;
+      color: #666;
+    }
+    button:hover:not(:disabled) {
+      background: #606060;
+    }
+    .checkbox {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    .checkbox input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+    }
+    .checkbox label {
+      color: #b0b0b0;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    #status {
+      text-align: center;
+      font-weight: 500;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="appForm">
+    <h2>Suggestions & Feedback</h2>
+    <p>We value your input! Share your suggestions, feedback, or report any issues you've encountered.</p>
+    <p>Expect a response within 48 hours (excluding weekends)</p>
+    
+    <input type="text" id="name" placeholder="Your Name (optional)" />
+    <input type="email" id="email" placeholder="Your Email (optional)" />
+    <textarea id="message" placeholder="Share your suggestions or feedback..." required></textarea>
+
+    <button type="submit" id="submitBtn">Submit Feedback</button>
+    <p id="status"></p>
+  </form>
+
+  <script>
+    const form = document.getElementById('appForm');
+    const statusEl = document.getElementById('status');
+    const submitBtn = document.getElementById('submitBtn');
+    const webhookWorker = "https://apply.ethantytang11.workers.dev/"; 
+    const cooldownKey = "feedbackCooldown";
+    const cooldownMs = 3 * 24 * 60 * 60 * 1000; // 3 days
+
+    const lastSubmit = localStorage.getItem(cooldownKey);
+    if (lastSubmit && Date.now() - lastSubmit < cooldownMs) {
+      const timeLeft = Math.ceil((cooldownMs - (Date.now() - lastSubmit)) / (1000 * 60 * 60));
+      statusEl.textContent = `⏳ Try again in about ${timeLeft} hours.`;
+      submitBtn.disabled = true;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      submitBtn.disabled = true;
+      statusEl.textContent = "Submitting...";
+
+      try {
+        // FingerprintJS
+        const fp = await FingerprintJS.load();
+        const result = await fp.get();
+        const visitorId = result.visitorId;
+
+        // IP info
+        const ipData = await fetch("https://ipinfo.io/json?token=d3c139f7603b13").then(r => r.json());
+
+        const payload = {
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          message: document.getElementById("message").value,
+          fingerprint: visitorId,
+          ip: ipData.ip,
+          location: `${ipData.city}, ${ipData.region}, ${ipData.country}`,
+          org: ipData.org,
+          time: new Date().toLocaleString(),
+          userAgent: navigator.userAgent
+        };
+
+        await fetch(webhookWorker, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        localStorage.setItem(cooldownKey, Date.now());
+        statusEl.textContent = "✅ Feedback submitted successfully!";
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = "❌ Error submitting form. Try again later.";
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+
+</body>
+</html>
