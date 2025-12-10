@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            background: #0d0d0d;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 72px;
+            background: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0 16px;
+            position: relative;
+            z-index: 100;
+            border-right: 1px solid #2a2a2a;
+            transition: width 0.2s ease;
+        }
+
+        .sidebar:hover {
+            width: 220px;
+            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 32px;
+            width: 100%;
+            padding: 0 16px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            background: transparent;
+            padding: 0;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar:hover .logo-container {
+            background: #fff;
+            padding: 8px 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+            background: #fff;
+            padding: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar:hover .logo-icon {
+            background: transparent;
+            padding: 0;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .logo-text {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1a1a1a;
+            opacity: 0;
+            white-space: nowrap;
+            transition: opacity 0.2s ease;
+            letter-spacing: -0.3px;
+        }
+
+        .sidebar:hover .logo-text {
+            opacity: 1;
+        }
+
+        .nav-items {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 0 12px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            color: #888;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.15s ease;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: #242424;
+            color: #e5e5e5;
+        }
+
+        .nav-item.active {
+            background: #2a2a2a;
+            color: #fff;
+        }
+
+        .nav-icon {
+            min-width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .nav-text {
+            margin-left: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .sidebar:hover .nav-text {
+            opacity: 1;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: #666;
+            opacity: 0;
+            white-space: nowrap;
+            transition: opacity 0.2s ease;
+            font-weight: 500;
+        }
+
+        .sidebar:hover .footer-text {
+            opacity: 1;
+        }
+
+        .footer-icon {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: #0d0d0d;
+        }
+
+        .content-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #fff;
+            display: block;
+        }
+
+        .settings-panel {
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            overflow-y: auto;
+            padding: 40px;
+            display: none;
+        }
+
+        .settings-panel.active {
+            display: block;
+        }
+
+        .settings-header {
+            margin-bottom: 32px;
+        }
+
+        .settings-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e5e5e5;
+            margin-bottom: 8px;
+        }
+
+        .settings-subtitle {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .setting-section {
+            background: #242424;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid #2a2a2a;
+        }
+
+        .setting-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: #e5e5e5;
+            margin-bottom: 8px;
+        }
+
+        .setting-description {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 16px;
+        }
+
+        .cloak-presets {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .preset-item {
+            background: #2a2a2a;
+            border: 2px solid #2a2a2a;
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .preset-item:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .preset-item.selected {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .preset-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .preset-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #e5e5e5;
+        }
+
+        .custom-cloak {
+            margin-top: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px 12px;
+            background: #2a2a2a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #e5e5e5;
+            font-size: 14px;
+            transition: all 0.15s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .apply-button {
+            padding: 10px 24px;
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .apply-button:hover {
+            background: #2563eb;
+        }
+
+        .apply-button:active {
+            transform: scale(0.98);
+        }
+
+        .loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0d0d0d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .loading-screen.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 2px solid #2a2a2a;
+            border-top-color: #888;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Blocked Modal */
+        .blocked-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+
+        .blocked-overlay.active {
+            display: flex;
+        }
+
+        .blocked-modal {
+            background: #1a1a1a;
+            border-radius: 16px;
+            padding: 28px;
+            max-width: 460px;
+            width: 90%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            border: 1px solid #2a2a2a;
+        }
+
+        .blocked-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .blocked-icon {
+            width: 44px;
+            height: 44px;
+            background: #2a1a1a;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            color: #ef4444;
+        }
+
+        .blocked-title {
+            color: #e5e5e5;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+        }
+
+        .blocked-body {
+            color: #888;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .blocked-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .blocked-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            background: #3b82f6;
+            color: #fff;
+        }
+
+        .blocked-button:hover {
+            background: #2563eb;
+        }
+
+        .blocked-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 72px;
+            }
+
+            .sidebar:hover {
+                width: 72px;
+            }
+
+            .nav-text,
+            .logo-text,
+            .footer-text {
+                display: none;
+            }
+
+            .blocked-modal {
+                padding: 24px 20px;
+            }
+
+            .settings-panel {
+                padding: 24px 20px;
+            }
+
+            .cloak-presets {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <img src="https://ubgcosmos.github.io/logo.png" alt="Cosmos Logo">
+                    </div>
+                    <div class="logo-text">Cosmos</div>
+                </div>
+            </div>
+
+            <div class="nav-items">
+                <a class="nav-item active" data-page="iframe" data-url="https://ubgcosmos.github.io/home.html">
+                    <span class="nav-icon"><i class="fas fa-home"></i></span>
+                    <span class="nav-text">Home</span>
+                </a>
+                <a class="nav-item" data-page="iframe" data-url="https://ubgcosmos.github.io/docs">
+                    <span class="nav-icon"><i class="fas fa-gamepad"></i></span>
+                    <span class="nav-text">Games</span>
+                </a>
+                <a class="nav-item" data-page="iframe" data-url="https://ubgcosmos.github.io/stats">
+                    <span class="nav-icon"><i class="fas fa-ghost"></i></span>
+                    <span class="nav-text">Gameboy</span>
+                </a>
+                <a class="nav-item" data-page="iframe" data-url="https://ubgcosmos.github.io/downloads">
+                    <span class="nav-icon"><i class="fas fa-download"></i></span>
+                    <span class="nav-text">Downloads</span>
+                </a>
+                <a class="nav-item" data-page="iframe" data-url="https://ubgcosmos.github.io/ai">
+                    <span class="nav-icon"><i class="fas fa-brain"></i></span>
+                    <span class="nav-text">AI</span>
+                </a>
+                <a class="nav-item" data-page="iframe" data-url="https://ubgcosmos.github.io/credits">
+                    <span class="nav-icon"><i class="fas fa-heart"></i></span>
+                    <span class="nav-text">Credits</span>
+                </a>
+                <a class="nav-item" data-page="iframe" data-url="https://ubgcosmos.github.io/feedback.html">
+                    <span class="nav-icon"><i class="fas fa-comment"></i></span>
+                    <span class="nav-text">Feedback</span>
+                </a>
+                <a class="nav-item" data-page="settings">
+                    <span class="nav-icon"><i class="fas fa-cog"></i></span>
+                    <span class="nav-text">Settings</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="footer-content">
+                    <span class="footer-icon"><i class="fas fa-sparkles"></i></span>
+                    <span class="footer-text">by Ethan Tang</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="loading-screen">
+                <div class="spinner"></div>
+            </div>
+            <iframe id="contentFrame" sandbox="allow pointer-lock allow-modals allow-downloads allow-forms allow-same-origin allow-scripts"class="content-frame" src="https://ubgcosmos.github.io"></iframe>
+            
+            <!-- Settings Panel -->
+            <div class="settings-panel" id="settingsPanel">
+                <div class="settings-header">
+                    <h1 class="settings-title">Settings</h1>
+                    <p class="settings-subtitle">Customize your Cosmos experience</p>
+                </div>
+
+                <!-- Tab Cloaking -->
+                <div class="setting-section">
+                    <div class="setting-header">Tab Cloaking</div>
+                    <div class="setting-description">Change your tab's title and icon to stay incognito</div>
+                    
+                    <div class="cloak-presets">
+                        <div class="preset-item" data-title="Google" data-icon="https://www.google.com/favicon.ico">
+                            <div class="preset-icon">🔍</div>
+                            <div class="preset-name">Google</div>
+                        </div>
+                        <div class="preset-item" data-title="Google Drive" data-icon="https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png">
+                            <div class="preset-icon">📁</div>
+                            <div class="preset-name">Google Drive</div>
+                        </div>
+                        <div class="preset-item" data-title="Google Classroom" data-icon="https://ssl.gstatic.com/classroom/favicon.png">
+                            <div class="preset-icon">🎓</div>
+                            <div class="preset-name">Classroom</div>
+                        </div>
+                        <div class="preset-item" data-title="Gmail" data-icon="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico">
+                            <div class="preset-icon">✉️</div>
+                            <div class="preset-name">Gmail</div>
+                        </div>
+                        <div class="preset-item" data-title="YouTube" data-icon="https://www.youtube.com/favicon.ico">
+                            <div class="preset-icon">▶️</div>
+                            <div class="preset-name">YouTube</div>
+                        </div>
+                        <div class="preset-item" data-title="Wikipedia" data-icon="https://www.wikipedia.org/static/favicon/wikipedia.ico">
+                            <div class="preset-icon">📚</div>
+                            <div class="preset-name">Wikipedia</div>
+                        </div>
+                    </div>
+
+                    <div class="custom-cloak">
+                        <div class="input-group">
+                            <label class="input-label">Custom Tab Title</label>
+                            <input type="text" class="input-field" id="customTitle" placeholder="My Custom Title">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Custom Favicon URL</label>
+                            <input type="text" class="input-field" id="customIcon" placeholder="https://example.com/favicon.ico">
+                        </div>
+                        <button class="apply-button" id="applyCustomCloak">Apply Custom Cloak</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blocked Link Modal -->
+    <div class="blocked-overlay" id="blockedOverlay">
+        <div class="blocked-modal">
+            <div class="blocked-header">
+                <div class="blocked-icon">
+                    <i class="fas fa-ban"></i>
+                </div>
+                <div class="blocked-title">Access Denied</div>
+            </div>
+            <div class="blocked-body">
+                This site only allows navigation within ubgcosmos.github.io. External links are blocked for your safety.
+            </div>
+            <div class="blocked-buttons">
+                <button class="blocked-button" id="blockedOk">Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const navItems = document.querySelectorAll('.nav-item');
+        const contentFrame = document.getElementById('contentFrame');
+        const loadingScreen = document.querySelector('.loading-screen');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const blockedOverlay = document.getElementById('blockedOverlay');
+        const blockedOk = document.getElementById('blockedOk');
+        const presetItems = document.querySelectorAll('.preset-item');
+        const customTitle = document.getElementById('customTitle');
+        const customIcon = document.getElementById('customIcon');
+        const applyCustomCloak = document.getElementById('applyCustomCloak');
+
+        const ALLOWED_DOMAIN = 'ubgcosmos.github.io';
+        
+        // Load saved cloak
+        const savedCloak = JSON.parse(localStorage.getItem('cosmos-cloak') || '{}');
+        if (savedCloak.title && savedCloak.icon) {
+            applyCloak(savedCloak.title, savedCloak.icon);
+        }
+
+        function getDomain(url) {
+            try {
+                const urlObj = new URL(url);
+                return urlObj.hostname;
+            } catch (e) {
+                return '';
+            }
+        }
+
+        function isAllowedDomain(url) {
+            const domain = getDomain(url);
+            return domain === ALLOWED_DOMAIN;
+        }
+
+        function monitorIframe() {
+            try {
+                const iframeUrl = contentFrame.contentWindow.location.href;
+                
+                if (!isAllowedDomain(iframeUrl)) {
+                    contentFrame.contentWindow.stop();
+                    blockedOverlay.classList.add('active');
+                    contentFrame.contentWindow.history.back();
+                }
+            } catch (e) {
+                // Cross-origin - expected
+            }
+        }
+
+        function applyCloak(title, iconUrl) {
+            document.title = title;
+            
+            let link = document.querySelector("link[rel*='icon']");
+            if (!link) {
+                link = document.createElement('link');
+                link.rel = 'icon';
+                document.head.appendChild(link);
+            }
+            link.href = iconUrl;
+
+            localStorage.setItem('cosmos-cloak', JSON.stringify({ title, icon: iconUrl }));
+        }
+
+        // Navigation
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const page = item.getAttribute('data-page');
+                const url = item.getAttribute('data-url');
+                
+                navItems.forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+                
+                if (page === 'settings') {
+                    contentFrame.style.display = 'none';
+                    settingsPanel.classList.add('active');
+                } else {
+                    settingsPanel.classList.remove('active');
+                    contentFrame.style.display = 'block';
+                    loadingScreen.classList.add('active');
+                    contentFrame.src = url;
+                }
+            });
+        });
+
+        contentFrame.addEventListener('load', () => {
+            loadingScreen.classList.remove('active');
+            monitorIframe();
+        });
+
+        // Preset cloaks
+        presetItems.forEach(preset => {
+            preset.addEventListener('click', () => {
+                const title = preset.getAttribute('data-title');
+                const icon = preset.getAttribute('data-icon');
+                
+                presetItems.forEach(p => p.classList.remove('selected'));
+                preset.classList.add('selected');
+                
+                applyCloak(title, icon);
+            });
+        });
+
+        // Custom cloak
+        applyCustomCloak.addEventListener('click', () => {
+            const title = customTitle.value.trim();
+            const icon = customIcon.value.trim();
+            
+            if (title && icon) {
+                applyCloak(title, icon);
+                presetItems.forEach(p => p.classList.remove('selected'));
+                customTitle.value = '';
+                customIcon.value = '';
+            }
+        });
+
+        // Blocked modal
+        blockedOk.addEventListener('click', () => {
+            blockedOverlay.classList.remove('active');
+        });
+
+        blockedOverlay.addEventListener('click', (e) => {
+            if (e.target === blockedOverlay) {
+                blockedOverlay.classList.remove('active');
+            }
+        });
+
+        setInterval(monitorIframe, 1000);
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loadingScreen.classList.remove('active');
+            }, 500);
+        });
+    </script>
+</body>
+</html>
