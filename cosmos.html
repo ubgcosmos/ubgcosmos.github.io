@@ -208,7 +208,107 @@
             height: 100%;
             border: none;
             background: #fff;
-            display: block;
+            display: none;
+        }
+
+        /* Homepage */
+        .homepage {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 40px;
+            background: rgba(26, 26, 26, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .info-icon {
+            font-size: 16px;
+            color: #3b82f6;
+        }
+
+        .info-value {
+            font-weight: 500;
+            color: #e5e5e5;
+        }
+
+        .center-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            gap: 24px;
+        }
+
+        .brand-display {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .brand-icon {
+            width: 140px;
+            height: 140px;
+            background: #fff;
+            border-radius: 24px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .brand-title {
+            font-size: 96px;
+            font-weight: 800;
+            color: #e5e5e5;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #e5e5e5 0%, #888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .typewriter {
+            font-size: 28px;
+            color: #3b82f6;
+            font-weight: 500;
+            min-height: 40px;
+            text-align: center;
         }
 
         .settings-panel {
@@ -351,129 +451,6 @@
             transform: scale(0.98);
         }
 
-        .loading-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0d0d0d;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 50;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s ease;
-        }
-
-        .loading-screen.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .spinner {
-            width: 32px;
-            height: 32px;
-            border: 2px solid #2a2a2a;
-            border-top-color: #888;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Blocked Modal */
-        .blocked-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 200;
-        }
-
-        .blocked-overlay.active {
-            display: flex;
-        }
-
-        .blocked-modal {
-            background: #1a1a1a;
-            border-radius: 16px;
-            padding: 28px;
-            max-width: 460px;
-            width: 90%;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            border: 1px solid #2a2a2a;
-        }
-
-        .blocked-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .blocked-icon {
-            width: 44px;
-            height: 44px;
-            background: #2a1a1a;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            flex-shrink: 0;
-            color: #ef4444;
-        }
-
-        .blocked-title {
-            color: #e5e5e5;
-            font-size: 18px;
-            font-weight: 600;
-            letter-spacing: -0.2px;
-        }
-
-        .blocked-body {
-            color: #888;
-            font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-
-        .blocked-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-
-        .blocked-button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            background: #3b82f6;
-            color: #fff;
-        }
-
-        .blocked-button:hover {
-            background: #2563eb;
-        }
-
-        .blocked-button:active {
-            transform: scale(0.98);
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
@@ -490,8 +467,28 @@
                 display: none;
             }
 
-            .blocked-modal {
-                padding: 24px 20px;
+            .brand-display {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .brand-title {
+                font-size: 64px;
+            }
+
+            .brand-icon {
+                width: 80px;
+                height: 80px;
+            }
+
+            .top-bar {
+                padding: 16px 20px;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .typewriter {
+                font-size: 18px;
             }
 
             .settings-panel {
@@ -518,7 +515,7 @@
             </div>
 
             <div class="nav-items">
-                <a class="nav-item active" data-page="iframe" data-url="https://ubgcosmos.github.io/home.html">
+                <a class="nav-item active" data-page="home">
                     <span class="nav-icon"><i class="fas fa-home"></i></span>
                     <span class="nav-text">Home</span>
                 </a>
@@ -562,10 +559,32 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <div class="loading-screen">
-                <div class="spinner"></div>
+            <!-- Homepage -->
+            <div class="homepage" id="homePage">
+                <div class="top-bar">
+                    <div class="info-item">
+                        <i class="fas fa-clock info-icon"></i>
+                        <span class="info-value" id="currentTime">--:--:--</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-calendar info-icon"></i>
+                        <span class="info-value" id="currentDate">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-cloud-sun info-icon"></i>
+                        <span class="info-value" id="weather">Loading weather...</span>
+                    </div>
+                </div>
+                <div class="center-content">
+                    <div class="brand-display">
+                        <div class="brand-icon">
+                            <img src="https://ubgcosmos.github.io/logo.png" alt="Cosmos">
+                        </div>
+                        <h1 class="brand-title">Cosmos</h1>
+                    </div>
+                    <div class="typewriter" id="typewriter"></div>
+                </div>
             </div>
-            <iframe id="contentFrame" sandbox="allow pointer-lock allow-modals allow-downloads allow-forms allow-same-origin allow-scripts"class="content-frame" src="https://ubgcosmos.github.io"></iframe>
             
             <!-- Settings Panel -->
             <div class="settings-panel" id="settingsPanel">
@@ -622,70 +641,19 @@
         </div>
     </div>
 
-    <!-- Blocked Link Modal -->
-    <div class="blocked-overlay" id="blockedOverlay">
-        <div class="blocked-modal">
-            <div class="blocked-header">
-                <div class="blocked-icon">
-                    <i class="fas fa-ban"></i>
-                </div>
-                <div class="blocked-title">Access Denied</div>
-            </div>
-            <div class="blocked-body">
-                This site only allows navigation within ubgcosmos.github.io. External links are blocked for your safety.
-            </div>
-            <div class="blocked-buttons">
-                <button class="blocked-button" id="blockedOk">Got it</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         const navItems = document.querySelectorAll('.nav-item');
-        const contentFrame = document.getElementById('contentFrame');
-        const loadingScreen = document.querySelector('.loading-screen');
+        const homePage = document.getElementById('homePage');
         const settingsPanel = document.getElementById('settingsPanel');
-        const blockedOverlay = document.getElementById('blockedOverlay');
-        const blockedOk = document.getElementById('blockedOk');
         const presetItems = document.querySelectorAll('.preset-item');
         const customTitle = document.getElementById('customTitle');
         const customIcon = document.getElementById('customIcon');
         const applyCustomCloak = document.getElementById('applyCustomCloak');
 
-        const ALLOWED_DOMAIN = 'ubgcosmos.github.io';
-        
         // Load saved cloak
         const savedCloak = JSON.parse(localStorage.getItem('cosmos-cloak') || '{}');
         if (savedCloak.title && savedCloak.icon) {
             applyCloak(savedCloak.title, savedCloak.icon);
-        }
-
-        function getDomain(url) {
-            try {
-                const urlObj = new URL(url);
-                return urlObj.hostname;
-            } catch (e) {
-                return '';
-            }
-        }
-
-        function isAllowedDomain(url) {
-            const domain = getDomain(url);
-            return domain === ALLOWED_DOMAIN;
-        }
-
-        function monitorIframe() {
-            try {
-                const iframeUrl = contentFrame.contentWindow.location.href;
-                
-                if (!isAllowedDomain(iframeUrl)) {
-                    contentFrame.contentWindow.stop();
-                    blockedOverlay.classList.add('active');
-                    contentFrame.contentWindow.history.back();
-                }
-            } catch (e) {
-                // Cross-origin - expected
-            }
         }
 
         function applyCloak(title, iconUrl) {
@@ -702,6 +670,66 @@
             localStorage.setItem('cosmos-cloak', JSON.stringify({ title, icon: iconUrl }));
         }
 
+        // Time + Date
+        function updateTime() {
+            const now = new Date();
+            document.getElementById("currentTime").textContent = now.toLocaleTimeString();
+            document.getElementById("currentDate").textContent = now.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' });
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Weather
+        async function loadWeather() {
+            try {
+                const ipData = await fetch("https://ipinfo.io/json?token=be26bfc118c4b0").then(r => r.json());
+                const [lat, lon] = ipData.loc.split(",");
+                const city = ipData.city;
+                const weatherData = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`).then(r => r.json());
+                const temp = weatherData.current_weather.temperature;
+                const code = weatherData.current_weather.weathercode;
+                const weatherNames = {0:"Clear",1:"Mainly Clear",2:"Partly Cloudy",3:"Cloudy",45:"Fog",48:"Fog",51:"Drizzle",61:"Rain",80:"Rain",95:"Storm"};
+                document.getElementById("weather").textContent = `${city} • ${weatherNames[code] ?? "Weather"} • ${temp}°C`;
+            } catch (err) {
+                document.getElementById("weather").textContent = "Weather unavailable";
+            }
+        }
+        loadWeather();
+
+        // Typewriter
+        const phrases = ["By Ethan Tang", "Venture into the unknown.", "Discover new worlds.", "The universe awaits.", "The sky isn't the limit."];
+        function typePhrase(element, text, callback) {
+            let i = 0;
+            element.textContent = "";
+            const interval = setInterval(() => {
+                element.textContent += text[i];
+                i++;
+                if (i >= text.length) {
+                    clearInterval(interval);
+                    if (callback) callback();
+                }
+            }, 100);
+        }
+        function startTyping() {
+            const phrase = phrases[Math.floor(Math.random() * phrases.length)];
+            typePhrase(document.getElementById("typewriter"), phrase);
+        }
+        window.onload = startTyping;
+
+        // Preload iframes
+        const iframeUrls = Array.from(navItems)
+            .filter(i => i.dataset.page === 'iframe')
+            .map(i => i.dataset.url);
+        
+        const preloadedIframes = {};
+        iframeUrls.forEach(url => {
+            const iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.className = 'content-frame';
+            document.querySelector('.main-content').appendChild(iframe);
+            preloadedIframes[url] = iframe;
+        });
+
         // Navigation
         navItems.forEach(item => {
             item.addEventListener('click', (e) => {
@@ -713,21 +741,21 @@
                 navItems.forEach(nav => nav.classList.remove('active'));
                 item.classList.add('active');
                 
-                if (page === 'settings') {
-                    contentFrame.style.display = 'none';
-                    settingsPanel.classList.add('active');
-                } else {
-                    settingsPanel.classList.remove('active');
-                    contentFrame.style.display = 'block';
-                    loadingScreen.classList.add('active');
-                    contentFrame.src = url;
+                // Hide all content
+                homePage.style.display = 'none';
+                settingsPanel.style.display = 'none';
+                Object.values(preloadedIframes).forEach(f => f.style.display = 'none');
+                
+                // Show selected content
+                if (page === 'home') {
+                    homePage.style.display = 'flex';
+                } else if (page === 'settings') {
+                    settingsPanel.style.display = 'block';
+                } else if (page === 'iframe') {
+                    const iframe = preloadedIframes[url];
+                    iframe.style.display = 'block';
                 }
             });
-        });
-
-        contentFrame.addEventListener('load', () => {
-            loadingScreen.classList.remove('active');
-            monitorIframe();
         });
 
         // Preset cloaks
@@ -754,25 +782,6 @@
                 customTitle.value = '';
                 customIcon.value = '';
             }
-        });
-
-        // Blocked modal
-        blockedOk.addEventListener('click', () => {
-            blockedOverlay.classList.remove('active');
-        });
-
-        blockedOverlay.addEventListener('click', (e) => {
-            if (e.target === blockedOverlay) {
-                blockedOverlay.classList.remove('active');
-            }
-        });
-
-        setInterval(monitorIframe, 1000);
-
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                loadingScreen.classList.remove('active');
-            }, 500);
         });
     </script>
 </body>
