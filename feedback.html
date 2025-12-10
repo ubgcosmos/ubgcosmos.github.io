@@ -107,7 +107,7 @@
     
     <input type="text" id="name" placeholder="Your Name (optional)" />
     <input type="email" id="email" placeholder="Your Email (optional)" />
-    <textarea id="message" placeholder="Share your suggestions or feedback..." required></textarea>
+    <textarea id="message" placeholder="Suggest a game or share feedback" required></textarea>
 
     <button type="submit" id="submitBtn">Submit Feedback</button>
     <p id="status"></p>
@@ -119,7 +119,7 @@
     const submitBtn = document.getElementById('submitBtn');
     const webhookWorker = "https://apply.ethantytang11.workers.dev/"; 
     const cooldownKey = "feedbackCooldown";
-    const cooldownMs = 3 * 24 * 60 * 60 * 1000; // 3 days
+    const cooldownMs = 24 * 60 * 60 * 1000; // 3 days
 
     const lastSubmit = localStorage.getItem(cooldownKey);
     if (lastSubmit && Date.now() - lastSubmit < cooldownMs) {
