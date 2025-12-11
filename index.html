@@ -116,6 +116,18 @@
       user-select: none !important;
       -webkit-user-select: none !important;
     }
+    .nav-indicator {
+      position: absolute;
+      left: 0;
+      width: 6px;
+      height: 40px; /* match nav item height */
+      background: #3b82f6;
+      border-radius: 4px;
+      transition: top 0.3s ease; /* smooth movement */
+      top: 0; /* initial position */
+    }
+    .nav-items { position: relative; } /* make indicator position relative to nav-items */
+
   </style>
 </head>
 <body>
@@ -167,6 +179,7 @@
         <span class="nav-icon"><i class="fas fa-cog"></i></span>
         <span class="nav-text">Settings</span>
       </a>
+      <div class="nav-indicator"></div>
     </div>
 
     <div class="sidebar-footer">
@@ -481,6 +494,44 @@ pollSubmit.addEventListener("click", async () => {
 window.addEventListener("DOMContentLoaded", () => {
   if (!hasVoted()) showPoll();
 });
+/* ——————————————————————————————
+  SMOOTH TAB SWITCHING
+—————————————————————————————— */
+const indicator = document.querySelector(".nav-indicator");
+
+function moveIndicator(item) {
+  const navRect = item.getBoundingClientRect();
+  const containerRect = item.parentElement.getBoundingClientRect();
+  const top = item.offsetTop; // relative to parent
+  indicator.style.top = top + "px";
+  indicator.style.height = navRect.height + "px"; // match height
+}
+
+// Initialize on first active item
+const initialActive = document.querySelector(".nav-item.active");
+if (initialActive) moveIndicator(initialActive);
+
+// Update on click
+navItems.forEach(item => {
+  item.addEventListener("click", e => {
+    e.preventDefault();
+    navItems.forEach(n => n.classList.remove("active"));
+    item.classList.add("active");
+    moveIndicator(item);
+    
+    // your existing page switch logic
+    const page = item.dataset.page;
+    const url = item.dataset.url;
+    homePage.style.display = "none";
+    settingsPanel.style.display = "none";
+    Object.values(preloadedIframes).forEach(i => i.style.display = "none");
+
+    if (page === "home") homePage.style.display = "flex";
+    if (page === "settings") settingsPanel.style.display = "block";
+    if (page === "iframe") preloadedIframes[url].style.display = "block";
+  });
+});
+
 </script>
 
 </body>
