@@ -192,11 +192,6 @@
           <span class="info-value" id="currentDate">Loading...</span>
         </div>
         <div class="info-item">
-          <i class="fas fa-eye info-icon"></i>
-          <b>Views</b>
-          <span class="info-value" id="globalViewCounter">--</span>
-        </div>
-        <div class="info-item">
           <i class="fas fa-cloud-sun info-icon"></i>
           <span class="info-value" id="weather">Loading weather...</span>
         </div>
@@ -210,6 +205,7 @@
           <h1 class="brand-title">Cosmos</h1>
         </div>
         <div class="typewriter" id="typewriter"></div>
+        <a href="https://hits.sh/ubgcosmos.github.io/"><img alt="Hits" src="https://hits.sh/ubgcosmos.github.io.svg?label=Views&color=9f9f9f&labelColor=191919"/></a>
       </div>
     </div>
 
@@ -485,25 +481,6 @@ pollSubmit.addEventListener("click", async () => {
 window.addEventListener("DOMContentLoaded", () => {
   if (!hasVoted()) showPoll();
 });
-
-/* ——————————————————————————————
-  VIEW TRACKER
-—————————————————————————————— */
-const VIEW_ENDPOINT = "https://viewcounter.ethantytang11.workers.dev";
-
-async function updateGlobalViewCounter() {
-  try {
-    const res = await fetch(VIEW_ENDPOINT, { method: "POST" });
-    const data = await res.json(); // expects { count: 123 }
-    document.getElementById("globalViewCounter").textContent = data.count;
-  } catch (err) {
-    document.getElementById("globalViewCounter").textContent = "N/A";
-    console.error("Error fetching global view count:", err);
-  }
-}
-
-// Call on page load
-updateGlobalViewCounter();
 </script>
 
 </body>
