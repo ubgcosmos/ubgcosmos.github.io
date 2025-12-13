@@ -6,74 +6,385 @@
   <title>Cosmos</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* === your original CSS (kept) === */
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;overflow:hidden;height:100vh;background:#0d0d0d;}
-    .container{display:flex;height:100vh;}
-    .sidebar{width:72px;background:#1a1a1a;display:flex;flex-direction:column;align-items:center;padding:20px 0 16px;position:relative;z-index:100;border-right:1px solid #2a2a2a;transition:width .2s ease;}
-    .sidebar:hover{width:220px;box-shadow:2px 0 12px rgba(0,0,0,.3);}
-    .sidebar-header{display:flex;align-items:center;justify-content:flex-start;margin-bottom:32px;width:100%;padding:0 16px;}
-    .logo-container{display:flex;align-items:center;gap:12px;cursor:pointer;background:transparent;padding:0;border-radius:12px;transition:all .2s ease;}
-    .sidebar:hover .logo-container{background:#fff;padding:8px 12px;}
-    .logo-icon{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;background:#fff;padding:4px;transition:all .2s ease;}
-    .sidebar:hover .logo-icon{background:transparent;padding:0;}
-    .logo-icon img{width:100%;height:100%;object-fit:cover;border-radius:8px;}
-    .logo-text{font-size:17px;font-weight:600;color:#1a1a1a;opacity:0;white-space:nowrap;transition:opacity .2s ease;letter-spacing:-.3px;}
-    .sidebar:hover .logo-text{opacity:1;}
-    .nav-items{flex:1;width:100%;display:flex;flex-direction:column;gap:2px;padding:0 12px;}
-    .nav-item{display:flex;align-items:center;padding:10px 12px;color:#888;cursor:pointer;border-radius:10px;transition:all .15s ease;position:relative;text-decoration:none;}
-    .nav-item:hover{background:#242424;color:#e5e5e5;}
-    .nav-item.active{background:#2a2a2a;color:#fff;}
-    .nav-icon{min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:16px;}
-    .nav-text{margin-left:12px;font-size:14px;font-weight:500;white-space:nowrap;opacity:0;transition:opacity .2s ease;}
-    .sidebar:hover .nav-text{opacity:1;}
-    .sidebar-footer{margin-top:auto;padding:12px 16px;display:flex;align-items:center;justify-content:flex-start;width:100%;border-top:1px solid #2a2a2a;}
-    .footer-content{display:flex;align-items:center;gap:8px;}
-    .footer-text{font-size:12px;color:#666;opacity:0;white-space:nowrap;transition:opacity .2s ease;font-weight:500;}
-    .sidebar:hover .footer-text{opacity:1;}
-    .footer-icon{font-size:12px;color:#666;}
-    .main-content{flex:1;position:relative;overflow:hidden;background:#0d0d0d;}
-    .content-frame{width:100%;height:100%;border:none;background:#fff;display:none;}
-    .homepage{display:flex;flex-direction:column;height:100%;width:100%;}
-    .top-bar{display:flex;justify-content:space-between;align-items:center;padding:24px 40px;background:rgba(26,26,26,.5);backdrop-filter:blur(10px);border-bottom:1px solid #2a2a2a;}
-    .info-item{display:flex;align-items:center;gap:8px;font-size:14px;color:#888;}
-    .info-icon{font-size:16px;color:#3b82f6;}
-    .info-value{font-weight:500;color:#e5e5e5;}
-    .center-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;gap:24px;}
-    .brand-display{display:flex;align-items:center;gap:24px;animation:fadeInUp .8s ease;}
-    @keyframes fadeInUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-    .brand-icon{width:140px;height:140px;background:#fff;border-radius:24px;padding:8px;display:flex;align-items:center;justify-content:center;}
-    .brand-icon img{width:100%;height:100%;object-fit:cover;border-radius:20px;}
-    .brand-title{font-size:96px;font-weight:800;color:#e5e5e5;letter-spacing:-2px;background:linear-gradient(135deg,#e5e5e5 0%,#888 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-    .typewriter{font-size:28px;color:#3b82f6;font-weight:500;min-height:40px;text-align:center;}
-    .settings-panel{width:100%;height:100%;background:#1a1a1a;overflow-y:auto;padding:40px;display:none;}
-    .settings-panel.active{display:block;}
-    .settings-header{margin-bottom:32px;}
-    .settings-title{font-size:28px;font-weight:700;color:#e5e5e5;margin-bottom:8px;}
-    .settings-subtitle{font-size:14px;color:#888;}
-    .setting-section{background:#242424;border-radius:12px;padding:24px;margin-bottom:20px;border:1px solid #2a2a2a;}
-    .setting-header{font-size:18px;font-weight:600;color:#e5e5e5;margin-bottom:8px;}
-    .setting-description{font-size:13px;color:#888;margin-bottom:16px;}
-    .cloak-presets{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:16px;}
-    .preset-item{background:#2a2a2a;border:2px solid #2a2a2a;border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .15s ease;}
-    .preset-item:hover{border-color:#3b82f6;transform:translateY(-2px);}
-    .preset-item.selected{border-color:#3b82f6;background:rgba(59,130,246,.1);}
-    .preset-icon{font-size:32px;margin-bottom:8px;}
-    .preset-name{font-size:13px;font-weight:500;color:#e5e5e5;}
-    .custom-cloak{margin-top:20px;}
-    .input-group{margin-bottom:16px;}
-    .input-label{display:block;font-size:13px;font-weight:500;color:#888;margin-bottom:8px;}
-    .input-field{width:100%;padding:10px 12px;background:#2a2a2a;border:1px solid #333;border-radius:8px;color:#e5e5e5;font-size:14px;transition:all .15s ease;}
-    .input-field:focus{outline:none;border-color:#3b82f6;}
-    .apply-button{padding:10px 24px;background:#3b82f6;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s ease;}
-    .apply-button:hover{background:#2563eb;}
-    .apply-button:active{transform:scale(.98);}
+    
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+      overflow:hidden;
+      height:100vh;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1535 50%, #2d1b4e 100%);
+      position: relative;
+    }
 
-    /* === Poll modal styles === */
+    /* Cosmic Background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(ellipse at 20% 30%, rgba(157, 78, 221, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(76, 201, 240, 0.15) 0%, transparent 50%);
+      z-index: 0;
+      animation: cosmicShift 20s ease-in-out infinite;
+    }
+
+    @keyframes cosmicShift {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.1); }
+    }
+
+    /* Starfield */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(1px 1px at 60% 70%, rgba(157, 78, 221, 0.8), transparent),
+        radial-gradient(1px 1px at 80% 10%, rgba(76, 201, 240, 0.8), transparent);
+      background-size: 200% 200%;
+      animation: stars 60s linear infinite;
+      opacity: 0.5;
+      z-index: 0;
+    }
+
+    @keyframes stars {
+      from { background-position: 0 0; }
+      to { background-position: -200% -200%; }
+    }
+
+    .container{display:flex;height:100vh;position:relative;z-index:1;}
+    
+    .sidebar{
+      width:72px;
+      background: rgba(26, 21, 53, 0.8);
+      backdrop-filter: blur(20px);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:20px 0 16px;
+      position:relative;
+      z-index:100;
+      border-right:1px solid rgba(157, 78, 221, 0.4);
+      transition:width .2s ease;
+      box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .sidebar:hover{
+      width:220px;
+      box-shadow:4px 0 30px rgba(157, 78, 221, 0.3);
+    }
+    
+    .sidebar-header{display:flex;align-items:center;justify-content:flex-start;margin-bottom:32px;width:100%;padding:0 16px;}
+    
+    .logo-container{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+      background:transparent;
+      padding:0;
+      border-radius:12px;
+      transition:all .2s ease;
+    }
+    
+    .sidebar:hover .logo-container{
+      background: linear-gradient(135deg, #9d4edd, #4cc9f0);
+      padding:8px 12px;
+      box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
+    }
+    
+    .logo-icon{
+      width:48px;
+      height:48px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+      overflow:hidden;
+      background: linear-gradient(135deg, #9d4edd, #4cc9f0);
+      padding:4px;
+      transition:all .2s ease;
+      box-shadow: 0 0 20px rgba(157, 78, 221, 0.6);
+    }
+    
+    .sidebar:hover .logo-icon{
+      background:transparent;
+      padding:0;
+      box-shadow: none;
+    }
+    
+    .logo-icon img{width:100%;height:100%;object-fit:cover;border-radius:8px;}
+    
+    .logo-text{
+      font-size:17px;
+      font-weight:600;
+      color:white;
+      opacity:0;
+      white-space:nowrap;
+      transition:opacity .2s ease;
+      letter-spacing:-.3px;
+    }
+    
+    .sidebar:hover .logo-text{opacity:1;}
+    
+    .nav-items{
+      flex:1;
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      padding:0 12px;
+      position: relative;
+    }
+    
+    .nav-item{
+      display:flex;
+      align-items:center;
+      padding:10px 12px;
+      color:#b8b8c8;
+      cursor:pointer;
+      border-radius:10px;
+      transition:all .15s ease;
+      position:relative;
+      text-decoration:none;
+    }
+    
+    .nav-item:hover{
+      background: rgba(157, 78, 221, 0.2);
+      color:#e8e8f0;
+      box-shadow: 0 0 15px rgba(157, 78, 221, 0.3);
+    }
+    
+    .nav-item.active{
+      background: rgba(157, 78, 221, 0.3);
+      color:#fff;
+      box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
+    }
+    
+    .nav-icon{min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+    
+    .nav-text{margin-left:12px;font-size:14px;font-weight:500;white-space:nowrap;opacity:0;transition:opacity .2s ease;}
+    
+    .sidebar:hover .nav-text{opacity:1;}
+    
+    .nav-indicator {
+      position: absolute;
+      left: 0;
+      width: 4px;
+      height: 40px;
+      background: linear-gradient(180deg, #9d4edd, #4cc9f0);
+      border-radius: 0 4px 4px 0;
+      transition: top 0.3s ease;
+      top: 0;
+      box-shadow: 0 0 15px rgba(157, 78, 221, 0.6);
+    }
+    
+    .sidebar-footer{
+      margin-top:auto;
+      padding:12px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      width:100%;
+      border-top:1px solid rgba(157, 78, 221, 0.3);
+    }
+    
+    .footer-content{display:flex;align-items:center;gap:8px;}
+    
+    .footer-text{font-size:12px;color:#9d4edd;opacity:0;white-space:nowrap;transition:opacity .2s ease;font-weight:500;}
+    
+    .sidebar:hover .footer-text{opacity:1;}
+    
+    .footer-icon{font-size:12px;color:#9d4edd;}
+    
+    .main-content{flex:1;position:relative;overflow:hidden;background: transparent;}
+    
+    .content-frame{width:100%;height:100%;border:none;background:#fff;display:none;border-radius: 0;}
+    
+    .homepage{display:flex;flex-direction:column;height:100%;width:100%;}
+    
+    .top-bar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:24px 40px;
+      background:rgba(26, 21, 53, 0.6);
+      backdrop-filter:blur(20px);
+      border-bottom:1px solid rgba(157, 78, 221, 0.3);
+    }
+    
+    .info-item{display:flex;align-items:center;gap:8px;font-size:14px;color:#b8b8c8;}
+    
+    .info-icon{font-size:16px;color:#9d4edd;}
+    
+    .info-value{font-weight:500;color:#e8e8f0;}
+    
+    .center-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;gap:24px;}
+    
+    .brand-display{display:flex;align-items:center;gap:24px;animation:fadeInUp .8s ease;}
+    
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    
+    .brand-icon{
+      width:140px;
+      height:140px;
+      background: linear-gradient(135deg, #9d4edd, #4cc9f0);
+      border-radius:24px;
+      padding:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 0 40px rgba(157, 78, 221, 0.6);
+    }
+    
+    .brand-icon img{width:100%;height:100%;object-fit:cover;border-radius:20px;}
+    
+    .brand-title{
+      font-size:96px;
+      font-weight:800;
+      letter-spacing:-2px;
+      background: linear-gradient(90deg, #9d4edd, #4cc9f0);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      text-shadow: 0 0 40px rgba(157, 78, 221, 0.5);
+    }
+    
+    .typewriter{
+      font-size:28px;
+      color:#4cc9f0;
+      font-weight:500;
+      min-height:40px;
+      text-align:center;
+      text-shadow: 0 0 20px rgba(76, 201, 240, 0.4);
+    }
+    
+    .settings-panel{
+      width:100%;
+      height:100%;
+      background: transparent;
+      overflow-y:auto;
+      padding:40px;
+      display:none;
+    }
+    
+    .settings-panel.active{display:block;}
+    
+    .settings-header{margin-bottom:32px;}
+    
+    .settings-title{
+      font-size:28px;
+      font-weight:700;
+      background: linear-gradient(90deg, #9d4edd, #4cc9f0);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      margin-bottom:8px;
+    }
+    
+    .settings-subtitle{font-size:14px;color:#b8b8c8;}
+    
+    .setting-section{
+      background: rgba(26, 21, 53, 0.6);
+      backdrop-filter: blur(15px);
+      border-radius:16px;
+      padding:24px;
+      margin-bottom:20px;
+      border:2px solid rgba(157, 78, 221, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .setting-header{
+      font-size:18px;
+      font-weight:600;
+      color:#e8e8f0;
+      margin-bottom:8px;
+    }
+    
+    .setting-description{font-size:13px;color:#b8b8c8;margin-bottom:16px;}
+    
+    .cloak-presets{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:16px;}
+    
+    .preset-item{
+      background: rgba(10, 14, 39, 0.6);
+      border:2px solid rgba(157, 78, 221, 0.3);
+      border-radius:12px;
+      padding:16px;
+      text-align:center;
+      cursor:pointer;
+      transition:all .15s ease;
+    }
+    
+    .preset-item:hover{
+      border-color:#9d4edd;
+      transform:translateY(-2px);
+      box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
+    }
+    
+    .preset-item.selected{
+      border-color:#4cc9f0;
+      background: rgba(76, 201, 240, 0.1);
+      box-shadow: 0 0 25px rgba(76, 201, 240, 0.4);
+    }
+    
+    .preset-icon{font-size:32px;margin-bottom:8px;}
+    
+    .preset-name{font-size:13px;font-weight:500;color:#e8e8f0;}
+    
+    .custom-cloak{margin-top:20px;}
+    
+    .input-group{margin-bottom:16px;}
+    
+    .input-label{display:block;font-size:13px;font-weight:500;color:#b8b8c8;margin-bottom:8px;}
+    
+    .input-field{
+      width:100%;
+      padding:10px 12px;
+      background: rgba(10, 14, 39, 0.6);
+      border:2px solid rgba(157, 78, 221, 0.3);
+      border-radius:10px;
+      color:#e8e8f0;
+      font-size:14px;
+      transition:all .15s ease;
+    }
+    
+    .input-field:focus{
+      outline:none;
+      border-color:#9d4edd;
+      box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
+    }
+    
+    .apply-button{
+      padding:10px 24px;
+      background: linear-gradient(135deg, #9d4edd, #4cc9f0);
+      color:#fff;
+      border:none;
+      border-radius:10px;
+      font-size:14px;
+      font-weight:500;
+      cursor:pointer;
+      transition:all .15s ease;
+    }
+    
+    .apply-button:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(157, 78, 221, 0.5), 0 0 40px rgba(76, 201, 240, 0.3);
+    }
+
+    /* Poll Modal */
     .poll-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(2,2,2,.85);
+      background: rgba(10, 14, 39, 0.95);
+      backdrop-filter: blur(20px);
       z-index: 10000;
       display: flex;
       align-items: center;
@@ -81,60 +392,102 @@
       padding: 24px;
       transition: opacity .2s ease;
     }
+    
     .poll-modal {
       max-width: 720px;
       width: 100%;
-      background: linear-gradient(180deg,#131313,#0f0f0f);
-      border-radius: 12px;
-      padding: 22px;
-      border: 1px solid #272727;
-      box-shadow: 0 12px 40px rgba(0,0,0,.6);
-      color: #e5e5e5;
+      background: rgba(26, 21, 53, 0.9);
+      backdrop-filter: blur(20px);
+      border-radius: 16px;
+      padding: 32px;
+      border: 2px solid rgba(157, 78, 221, 0.4);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(157, 78, 221, 0.3);
+      color: #e8e8f0;
       text-align: center;
     }
-    .poll-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-    .poll-desc { color: #bdbdbd; margin-bottom: 18px; }
-    .poll-options { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:18px; }
+    
+    .poll-title { 
+      font-size: 24px; 
+      font-weight: 700; 
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, #9d4edd, #4cc9f0);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    
+    .poll-desc { color: #b8b8c8; margin-bottom: 24px; font-size: 16px; }
+    
+    .poll-options { 
+      display:flex; 
+      gap:12px; 
+      justify-content:center; 
+      flex-wrap:wrap; 
+      margin-bottom:24px; 
+    }
+    
     .poll-option {
-      color: #fcfcfc;
-      background: #171717;
-      border: 1px solid #fcfcfc;
-      padding: 10px 16px;
-      border-radius: 10px;
+      color: #e8e8f0;
+      background: rgba(10, 14, 39, 0.6);
+      border: 2px solid rgba(157, 78, 221, 0.3);
+      padding: 12px 20px;
+      border-radius: 12px;
       cursor: pointer;
       min-width: 160px;
       font-weight:600;
-      transition: transform .12s ease, border-color .12s ease;
+      transition: all .3s ease;
     }
-    .poll-option:hover{ transform: translateY(-4px); border-color:#3b82f6; }
-    .poll-option.selected { border-color:#3b82f6; background: linear-gradient(90deg, rgba(59,130,246,.08), rgba(59,130,246,.03)); }
-    .poll-submit { padding:10px 20px; border-radius:10px; background:#3b82f6; border:none; color:#fff; font-weight:700; cursor:pointer; }
-    .poll-note { font-size:12px; color:#9aa1b2; margin-top:10px; }
+    
+    .poll-option:hover{ 
+      transform: translateY(-4px); 
+      border-color:#9d4edd;
+      box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
+    }
+    
+    .poll-option.selected { 
+      border-color:#4cc9f0; 
+      background: linear-gradient(135deg, rgba(157, 78, 221, 0.2), rgba(76, 201, 240, 0.2));
+      box-shadow: 0 0 25px rgba(76, 201, 240, 0.4);
+    }
+    
+    .poll-submit { 
+      padding:12px 32px; 
+      border-radius:12px; 
+      background: linear-gradient(135deg, #9d4edd, #4cc9f0); 
+      border:none; 
+      color:#fff; 
+      font-weight:700; 
+      cursor:pointer;
+      transition: all .3s ease;
+      font-size: 16px;
+    }
+    
+    .poll-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(157, 78, 221, 0.5);
+    }
+    
+    .poll-note { font-size:13px; color:#9d4edd; margin-top:16px; }
 
     body.poll-locked *:not(.poll-overlay):not(.poll-overlay *){
       pointer-events: none !important;
       user-select: none !important;
-      -webkit-user-select: none !important;
     }
-    .nav-indicator {
-      position: absolute;
-      left: 0;
-      width: 6px;
-      height: 40px; /* match nav item height */
-      background: #3b82f6;
-      border-radius: 4px;
-      transition: top 0.3s ease; /* smooth movement */
-      top: 0; /* initial position */
-    }
-    .nav-items { position: relative; } /* make indicator position relative to nav-items */
 
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: rgba(10, 14, 39, 0.6); }
+    ::-webkit-scrollbar-thumb { 
+      background: linear-gradient(180deg, #9d4edd, #4cc9f0);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover { 
+      box-shadow: 0 0 15px rgba(157, 78, 221, 0.6);
+    }
   </style>
 </head>
 <body>
 
-<!-- ——————————————————————————————————————
-       SIDEBAR + MAIN LAYOUT (UNCHANGED)
-—————————————————————————————————————— -->
 <div class="container">
   <div class="sidebar">
     <div class="sidebar-header">
@@ -147,6 +500,7 @@
     </div>
 
     <div class="nav-items">
+      <div class="nav-indicator"></div>
       <a class="nav-item active" data-page="home">
         <span class="nav-icon"><i class="fas fa-home"></i></span>
         <span class="nav-text">Home</span>
@@ -158,6 +512,10 @@
       <a class="nav-item" data-page="iframe" data-url="https://ubgcosmos.github.io/stats">
         <span class="nav-icon"><i class="fas fa-ghost"></i></span>
         <span class="nav-text">Gameboy</span>
+      </a>
+      <a class="nav-item" data-page="iframe" data-url="/active">
+        <span class="nav-icon"><i class="fas fa-search"></i></span>
+        <span class="nav-text">Proxy</span>
       </a>
       <a class="nav-item" data-page="iframe" data-url="https://ubgcosmos.github.io/downloads">
         <span class="nav-icon"><i class="fas fa-download"></i></span>
@@ -175,7 +533,6 @@
         <span class="nav-icon"><i class="fas fa-cog"></i></span>
         <span class="nav-text">Settings</span>
       </a>
-      <div class="nav-indicator"></div>
     </div>
 
     <div class="sidebar-footer">
@@ -186,10 +543,7 @@
     </div>
   </div>
 
-  <!-- Main content area -->
   <div class="main-content">
-
-    <!-- Homepage -->
     <div class="homepage" id="homePage">
       <div class="top-bar">
         <div class="info-item">
@@ -214,18 +568,16 @@
           <h1 class="brand-title">Cosmos</h1>
         </div>
         <div class="typewriter" id="typewriter"></div>
-        <img alt="views" src="https://hits.sh/ubgcosmos.github.io.svg?label=Views&color=9f9f9f&labelColor=191919"/>
+        <img alt="views" src="https://hits.sh/ubgcosmos.github.io.svg?label=Views&color=9d4edd&labelColor=1a1535"/>
       </div>
     </div>
 
-    <!-- Settings -->
     <div class="settings-panel" id="settingsPanel">
       <div class="settings-header">
         <h1 class="settings-title">Settings</h1>
         <p class="settings-subtitle">Customize your Cosmos experience</p>
       </div>
 
-      <!-- Tab Cloaking -->
       <div class="setting-section">
         <div class="setting-header">Tab Cloaking</div>
         <div class="setting-description">Change your tab's title and icon to stay incognito</div>
@@ -273,12 +625,9 @@
   </div>
 </div>
 
-<!-- ——————————————————————————————————————
-           POLL OVERLAY (LOCKS UI)
-—————————————————————————————————————— -->
-<div id="pollOverlay" class="poll-overlay" style="display:none" aria-hidden="true">
-  <div class="poll-modal" role="dialog" aria-modal="true" aria-labelledby="pollTitle">
-    <div id="pollTitle" class="poll-title">Monthly Poll</div>
+<div id="pollOverlay" class="poll-overlay" style="display:none">
+  <div class="poll-modal">
+    <div class="poll-title">Monthly Poll</div>
     <div class="poll-desc">should i change the theme based on season</div>
 
     <div class="poll-options" id="pollOptions">
@@ -288,20 +637,14 @@
     </div>
 
     <button id="pollSubmit" class="poll-submit" disabled>Submit Vote</button>
-    <div class="poll-note" id="pollNote">Your vote helps improve Cosmos ✨</div>
+    <div class="poll-note">Your vote helps improve Cosmos ✨</div>
   </div>
 </div>
 
 <script>
-/* ===========================================
-       CONFIG — USES YOUR WORKER URL
-=========================================== */
 const VOTE_ENDPOINT = "https://poll.ethantytang11.workers.dev/vote";
 const POLL_KEY_PREFIX = "cosmos-poll";
 
-/* ——————————————————————————————
-        TIME + DATE
-—————————————————————————————— */
 function updateTime() {
   const now = new Date();
   document.getElementById("currentTime").textContent = now.toLocaleTimeString();
@@ -310,9 +653,6 @@ function updateTime() {
 setInterval(updateTime, 1000);
 updateTime();
 
-/* ——————————————————————————————
-        WEATHER LOADING
-—————————————————————————————— */
 async function loadWeather() {
   try {
     const ip = await fetch("https://ipinfo.io/json?token=be26bfc118c4b0").then(r => r.json());
@@ -327,9 +667,6 @@ async function loadWeather() {
 }
 loadWeather();
 
-/* ——————————————————————————————
-        TYPEWRITER
-—————————————————————————————— */
 const phrases = ["By Ethan Tang","Venture into the unknown.","Discover new worlds.","The universe awaits.","The sky isn't the limit."];
 function startTyping() {
   const el = document.getElementById("typewriter");
@@ -344,12 +681,10 @@ function startTyping() {
 }
 window.onload = startTyping;
 
-/* ——————————————————————————————
-        PRELOAD IFRAMES
-—————————————————————————————— */
 const navItems = document.querySelectorAll(".nav-item");
 const homePage = document.getElementById("homePage");
 const settingsPanel = document.getElementById("settingsPanel");
+const indicator = document.querySelector(".nav-indicator");
 
 const iframeUrls = [...navItems]
   .filter(n => n.dataset.page === "iframe")
@@ -364,9 +699,14 @@ iframeUrls.forEach(url => {
   preloadedIframes[url] = iframe;
 });
 
-/* ——————————————————————————————
-            NAVIGATION
-—————————————————————————————— */
+function moveIndicator(item) {
+  indicator.style.top = item.offsetTop + "px";
+  indicator.style.height = item.offsetHeight + "px";
+}
+
+const initialActive = document.querySelector(".nav-item.active");
+if (initialActive) moveIndicator(initialActive);
+
 navItems.forEach(item => {
   item.addEventListener("click", e => {
     e.preventDefault();
@@ -375,6 +715,7 @@ navItems.forEach(item => {
 
     navItems.forEach(n => n.classList.remove("active"));
     item.classList.add("active");
+    moveIndicator(item);
 
     homePage.style.display = "none";
     settingsPanel.style.display = "none";
@@ -386,9 +727,6 @@ navItems.forEach(item => {
   });
 });
 
-/* ——————————————————————————————
-        TAB CLOAKING
-—————————————————————————————— */
 const presetItems = document.querySelectorAll(".preset-item");
 const customTitle = document.getElementById("customTitle");
 const customIcon = document.getElementById("customIcon");
@@ -418,6 +756,7 @@ presetItems.forEach(preset => {
     applyCloak(title, icon);
   });
 });
+
 applyCustomCloak.addEventListener("click", () => {
   if (customTitle.value && customIcon.value) {
     applyCloak(customTitle.value, customIcon.value);
@@ -427,9 +766,6 @@ applyCustomCloak.addEventListener("click", () => {
   }
 });
 
-/* ——————————————————————————————
-        POLL SYSTEM
-—————————————————————————————— */
 const pollOverlay = document.getElementById("pollOverlay");
 const pollOptions = document.getElementById("pollOptions");
 const pollSubmit = document.getElementById("pollSubmit");
@@ -484,51 +820,6 @@ pollSubmit.addEventListener("click", async () => {
   }
 });
 
-/* ——————————————————————————————
-  SHOW POLL ON FIRST LOAD EACH MONTH
-—————————————————————————————— */
 window.addEventListener("DOMContentLoaded", () => {
   if (!hasVoted()) showPoll();
 });
-/* ——————————————————————————————
-  SMOOTH TAB SWITCHING
-—————————————————————————————— */
-const indicator = document.querySelector(".nav-indicator");
-
-function moveIndicator(item) {
-  const navRect = item.getBoundingClientRect();
-  const containerRect = item.parentElement.getBoundingClientRect();
-  const top = item.offsetTop; // relative to parent
-  indicator.style.top = top + "px";
-  indicator.style.height = navRect.height + "px"; // match height
-}
-
-// Initialize on first active item
-const initialActive = document.querySelector(".nav-item.active");
-if (initialActive) moveIndicator(initialActive);
-
-// Update on click
-navItems.forEach(item => {
-  item.addEventListener("click", e => {
-    e.preventDefault();
-    navItems.forEach(n => n.classList.remove("active"));
-    item.classList.add("active");
-    moveIndicator(item);
-    
-    // your existing page switch logic
-    const page = item.dataset.page;
-    const url = item.dataset.url;
-    homePage.style.display = "none";
-    settingsPanel.style.display = "none";
-    Object.values(preloadedIframes).forEach(i => i.style.display = "none");
-
-    if (page === "home") homePage.style.display = "flex";
-    if (page === "settings") settingsPanel.style.display = "block";
-    if (page === "iframe") preloadedIframes[url].style.display = "block";
-  });
-});
-
-</script>
-
-</body>
-</html>
