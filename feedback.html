@@ -10,92 +10,182 @@
   <title>Suggestions & Feedback</title>
   <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: system-ui, sans-serif;
-      background: #1a1a1a;
-      color: #e0e0e0;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1535 50%, #2d1b4e 100%);
+      color: #e8e8f0;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       padding: 20px;
+      position: relative;
+      overflow-x: hidden;
     }
+
+    /* Animated Cosmic Background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(ellipse at 20% 30%, rgba(157, 78, 221, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(76, 201, 240, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(107, 47, 143, 0.1) 0%, transparent 60%);
+      z-index: -1;
+      animation: cosmicShift 20s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes cosmicShift {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.1); }
+    }
+
+    /* Starfield */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(2px 2px at 60% 70%, white, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, white, transparent);
+      background-size: 200% 200%;
+      animation: stars 60s linear infinite;
+      opacity: 0.5;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    @keyframes stars {
+      from { background-position: 0 0; }
+      to { background-position: -200% -200%; }
+    }
+
     form {
-      background: #2a2a2a;
+      background: rgba(26, 21, 53, 0.8);
+      backdrop-filter: blur(20px);
       padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      border-radius: 16px;
+      border: 1px solid rgba(157, 78, 221, 0.4);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(157, 78, 221, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
       width: 100%;
       max-width: 450px;
+      z-index: 1;
     }
+
     h2 {
-      color: #f0f0f0;
+      color: #e8e8f0;
       margin-top: 0;
       margin-bottom: 10px;
+      background: linear-gradient(90deg, #9d4edd, #4cc9f0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 28px;
+      font-weight: 700;
     }
+
     p {
-      color: #b0b0b0;
+      color: #b8b8c8;
       font-size: 14px;
       line-height: 1.5;
     }
+
     input, textarea, button {
       width: 100%;
       margin: 10px 0;
       padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #444;
-      background: #333;
-      color: #e0e0e0;
+      border-radius: 10px;
+      border: 2px solid rgba(157, 78, 221, 0.3);
+      background: rgba(10, 14, 39, 0.6);
+      color: #e8e8f0;
       font-family: system-ui, sans-serif;
+      transition: all 0.3s ease;
     }
+
     input::placeholder, textarea::placeholder {
-      color: #888;
+      color: rgba(232, 232, 240, 0.5);
     }
+
     input:focus, textarea:focus {
       outline: none;
-      border-color: #666;
-      background: #3a3a3a;
+      border-color: #9d4edd;
+      background: rgba(10, 14, 39, 0.8);
+      box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
     }
+
     textarea {
       min-height: 120px;
       resize: vertical;
     }
+
     button {
-      background: #505050;
+      background: linear-gradient(135deg, #9d4edd, #4cc9f0);
       color: white;
       border: none;
       cursor: pointer;
-      transition: 0.2s;
-      font-weight: 500;
+      transition: all 0.3s ease;
+      font-weight: 600;
       margin-top: 15px;
+      position: relative;
+      overflow: hidden;
     }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
     button:disabled {
-      background: #3a3a3a;
+      background: rgba(58, 58, 58, 0.6);
       cursor: not-allowed;
-      color: #666;
+      color: #888;
     }
+
     button:hover:not(:disabled) {
-      background: #606060;
+      transform: translateY(-2px);
+      box-shadow: 
+        0 10px 30px rgba(157, 78, 221, 0.5),
+        0 0 40px rgba(76, 201, 240, 0.3);
     }
-    .checkbox {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 15px 0;
-    }
-    .checkbox input[type="checkbox"] {
-      width: auto;
-      margin: 0;
-    }
-    .checkbox label {
-      color: #b0b0b0;
-      font-size: 14px;
-      cursor: pointer;
-    }
+
     #status {
       text-align: center;
       font-weight: 500;
       margin-top: 10px;
+      color: #9d4edd;
     }
   </style>
 </head>
@@ -119,7 +209,7 @@
     const submitBtn = document.getElementById('submitBtn');
     const webhookWorker = "https://apply.ethantytang11.workers.dev/"; 
     const cooldownKey = "feedbackCooldown";
-    const cooldownMs = 24 * 60 * 60 * 1000; // 3 days
+    const cooldownMs = 24 * 60 * 60 * 1000;
 
     const lastSubmit = localStorage.getItem(cooldownKey);
     if (lastSubmit && Date.now() - lastSubmit < cooldownMs) {
@@ -135,12 +225,10 @@
       statusEl.textContent = "Submitting...";
 
       try {
-        // FingerprintJS
         const fp = await FingerprintJS.load();
         const result = await fp.get();
         const visitorId = result.visitorId;
 
-        // IP info
         const ipData = await fetch("https://ipinfo.io/json?token=d3c139f7603b13").then(r => r.json());
 
         const payload = {
