@@ -1,41 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cosmos Loader</title>
+    <title>yep</title>
 </head>
 <body>
-<div id="loader">autoupdating...</div>
-<div id="content"></div>
-
-<script>
-const WORKER_URL = "https://raw.githubusercontent.com/ubgcosmos/ubgcosmos.github.io/refs/heads/main/file.html"; // replace with your worker URL
-
-async function loadCosmos() {
-  const res = await fetch(WORKER_URL);
-  const html = await res.text();
-  
-  const container = document.getElementById("content");
-  container.innerHTML = html;
-
-  // Optionally remove loader
-  document.getElementById("loader").style.display = "none";
-
-  // Execute inline scripts from fetched HTML
-  container.querySelectorAll("script").forEach(oldScript => {
-    const script = document.createElement("script");
-    if(oldScript.src) {
-      script.src = oldScript.src;
-    } else {
-      script.textContent = oldScript.textContent;
-    }
-    document.body.appendChild(script);
-    oldScript.remove();
-  });
-}
-
-loadCosmos();
-</script>
+    <h1>Move back</h1>
+    <p>if you can still see this we moved back to old the keybind is e and then t</p>
 </body>
 </html>
